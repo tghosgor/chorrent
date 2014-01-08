@@ -15,6 +15,17 @@ This file is part of chorrent.
     along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+var peerId = "";
+var torrentMgr = new TorrentMgr();
+var torrents = ["test1", "test2", "test3"];
+
+/* generate random peer id */
+for(var i = 0; i < 20; ++i)
+{
+  var randomIdx = (parseInt(Math.random() * 1000) % 256).toString(16);
+  peerId = peerId + "%" + (randomIdx.length == 1 ? "0" + randomIdx : randomIdx);
+};
+
 chrome.app.runtime.onLaunched.addListener(function() {
   chrome.app.window.create("html/mainWnd.html", {
     id: "mainWnd",

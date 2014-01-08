@@ -16,20 +16,21 @@ This file is part of chorrent.
 */
 {
   "manifest_version": 2,
-  
+
   "name": "Chorrent",
   "description": "A torrent client project as a chrome extension. The main aim is to have a sleek and clean UI design and efficient.",
   "version": "0.0.1",
-  
+
   "permissions": [
     "contextMenus",
     "fileSystem",
     {"socket": ["tcp-connect:*:*", "udp-send-to::*"]}
   ],
-  
+
   "app": {
     "background": {
       "scripts": [
+        "js/TorrentMgr.js",
         "js/main.js"
       ]
     }

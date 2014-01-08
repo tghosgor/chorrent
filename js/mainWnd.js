@@ -18,16 +18,9 @@ This file is part of chorrent.
 console.log("window.js loaded.");
 
 var app = angular.module("mainWnd", []);
-var peerId = "";
-var torrentMgr = new TorrentMgr;
-
-/* generate random peer id */
-for(var i = 0; i < 20; ++i)
-{
-  var randomIdx = (parseInt(Math.random() * 1000) % 256).toString(16);
-  peerId = peerId + "%" + (randomIdx.length == 1 ? "0" + randomIdx : randomIdx); 
-}
 
 app.controller("dlistCtrl", function($scope) {
-  $scope.torrents = ["test1", "test2", "test3"];
+  chrome.runtime.getBackgroundPage(function(root) {
+    $scope.$apply(function(){ $scope.torrents = root.torrents; });
+  });
 });
