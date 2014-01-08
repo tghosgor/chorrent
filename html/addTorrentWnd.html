@@ -25,15 +25,17 @@ This file is part of chorrent.
     <link href="../css/addTorrentWnd.css" rel="stylesheet" type="text/css">
   </head>
   <body data-ng-controller="mainCtrl">
-    <div id="title">Torrent Information</div>
+    <div id="title">{{info.name}}</div>
 
-    <span class="caption">Files</span>
-    <div id="files">
-      <div class="file" data-ng-repeat="file in files">
-        <label><input type="checkbox" value="{{$index}}" checked="checked">&nbsp;{{file.path[0]}}</label>
+    <div id="filesCont" data-ng-hide="!files.length">
+      <span class="caption">Files</span>
+      <div id="files">
+        <div class="file" data-ng-repeat="file in files">
+          <label><input type="checkbox" value="{{$index}}" checked="checked">&nbsp;{{file.path[0]}}</label>
+        </div>
       </div>
+      <span class="button" id="selectAll">Select All</span> | <span class="button" id="deselectAll">Deselect All</span>
     </div>
-    <span class="button" id="selectAll">Select All</span> | <span class="button" id="deselectAll">Deselect All</span>
 
     <div id="actionBtns">
       <button id="addBtn">Add</button>&nbsp;<button id="cancelBtn">Cancel</button>

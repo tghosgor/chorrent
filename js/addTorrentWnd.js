@@ -21,6 +21,7 @@ This file is part of chorrent.
 var app = angular.module("addTorrentWnd", []);
 
 app.controller("mainCtrl", function($scope) {
+  $scope.info = torrentData.info;
   $scope.files = torrentData.info.files;
 });
 
