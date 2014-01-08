@@ -7,4 +7,4 @@ This Chrome app is meant to be written in pure javascript, which means it will b
 
 Looking forward for pull requests, especially about artwork and ui design.
 
-### Watch or star to be notified of the development status.
+### :star: Watch or Star to be notified of the news and development status.
