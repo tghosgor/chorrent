@@ -1,4 +1,8 @@
+@charset "UTF-8";
 /*!
+
+Copyright © 2014 Tolga HOŞGÖR
+
 This file is part of chorrent.
 
     chorrent is free software: you can redistribute it and/or modify
@@ -15,6 +19,9 @@ This file is part of chorrent.
     along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
 */
 /*
+
+Copyright © 2014 Tolga HOŞGÖR
+
 This file is part of chorrent.
 
     chorrent is free software: you can redistribute it and/or modify
@@ -30,48 +37,51 @@ This file is part of chorrent.
     You should have received a copy of the GNU General Public License
     along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
 */
-/* line 19, ../sass/addTorrentWnd/_main.scss */
+/* line 22, ../sass/addTorrentWnd/_main.scss */
 body {
   font-family: 'Open Sans', sans-serif;
   min-width: 357px;
   overflow-x: hidden;
 }
 
-/* line 26, ../sass/addTorrentWnd/_main.scss */
+/* line 29, ../sass/addTorrentWnd/_main.scss */
 button {
   padding: 2px 10px;
   border-radius: 3px;
   background: linear-gradient(to bottom, #f7f7f7 0%, #ededed 100%);
 }
 
-/* line 33, ../sass/addTorrentWnd/_main.scss */
+/* line 36, ../sass/addTorrentWnd/_main.scss */
 #actionBtns {
   position: absolute;
   bottom: 10px;
   right: 10px;
 }
 
-/* line 40, ../sass/addTorrentWnd/_main.scss */
+/* line 43, ../sass/addTorrentWnd/_main.scss */
 .caption {
   text-decoration: underline;
 }
 
-/* line 45, ../sass/addTorrentWnd/_main.scss */
+/* line 48, ../sass/addTorrentWnd/_main.scss */
 #files {
   border: 1px solid #ddd;
   height: 150px;
   overflow-y: auto;
 }
-/* line 50, ../sass/addTorrentWnd/_main.scss */
+/* line 53, ../sass/addTorrentWnd/_main.scss */
 #files .file {
   color: #999;
 }
-/* line 53, ../sass/addTorrentWnd/_main.scss */
+/* line 56, ../sass/addTorrentWnd/_main.scss */
 #files .file input {
   vertical-align: middle;
 }
 
 /*
+
+Copyright © 2014 Tolga HOŞGÖR
+
 This file is part of chorrent.
 
     chorrent is free software: you can redistribute it and/or modify
@@ -87,7 +97,7 @@ This file is part of chorrent.
     You should have received a copy of the GNU General Public License
     along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
 */
-/* line 19, ../sass/shared/_main.scss */
+/* line 22, ../sass/shared/_main.scss */
 #title {
   font-weight: bold;
   font-size: 15px;

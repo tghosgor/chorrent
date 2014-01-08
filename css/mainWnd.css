@@ -1,4 +1,8 @@
+@charset "UTF-8";
 /*!
+
+Copyright © 2014 Tolga HOŞGÖR
+
 This file is part of chorrent.
 
     chorrent is free software: you can redistribute it and/or modify
@@ -15,6 +19,9 @@ This file is part of chorrent.
     along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
 */
 /*
+
+Copyright © 2014 Tolga HOŞGÖR
+
 This file is part of chorrent.
 
     chorrent is free software: you can redistribute it and/or modify
@@ -30,19 +37,22 @@ This file is part of chorrent.
     You should have received a copy of the GNU General Public License
     along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
 */
-/* line 18, ../sass/mainWnd/_main.scss */
+/* line 21, ../sass/mainWnd/_main.scss */
 body {
   font-family: 'Open Sans', sans-serif;
   min-width: 357px;
   overflow-x: hidden;
 }
 
-/* line 24, ../sass/mainWnd/_main.scss */
+/* line 27, ../sass/mainWnd/_main.scss */
 #menu {
   border-bottom: 1px solid #ddd;
 }
 
 /*
+
+Copyright © 2014 Tolga HOŞGÖR
+
 This file is part of chorrent.
 
     chorrent is free software: you can redistribute it and/or modify
@@ -58,7 +68,7 @@ This file is part of chorrent.
     You should have received a copy of the GNU General Public License
     along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
 */
-/* line 19, ../sass/shared/_main.scss */
+/* line 22, ../sass/shared/_main.scss */
 #title {
   font-weight: bold;
   font-size: 15px;

@@ -1,4 +1,7 @@
 /*!
+
+Copyright © 2014 Tolga HOŞGÖR
+
 This file is part of chorrent.
 
     chorrent is free software: you can redistribute it and/or modify
@@ -20,10 +23,10 @@ var app = angular.module("addTorrentWnd", []);
 app.controller("mainCtrl", function($scope) {
   $scope.files = torrentData.info.files;
 });
-  
+
 document.addEventListener("DOMContentLoaded", function () {
   console.log(torrentData);
-  
+
   document.querySelector("#addBtn").addEventListener("click", function() { });
   document.querySelector("#cancelBtn").addEventListener("click", function() { window.close(); } );
   var checkboxes = document.querySelector("#files").querySelectorAll("input[type='checkbox'][checked='checked']");

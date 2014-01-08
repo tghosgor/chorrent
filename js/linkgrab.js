@@ -1,4 +1,7 @@
 /*!
+
+Copyright © 2014 Tolga HOŞGÖR
+
 This file is part of chorrent.
 
     chorrent is free software: you can redistribute it and/or modify
@@ -44,26 +47,26 @@ function parseMagnet(magnet)
       torrentInfo[match[1]] = new Array();
     torrentInfo[match[1]].push(match[2]);
   }
-  
+
   /* test magnet for correct hash type */
   var bittorrentTest = /^urn:btih:/;
   if(!bittorrentTest.test(torrentInfo["xt"][0]))
     return {status: 1, text: "No hash BitTorrent hash found in this magnet link."};
   else /* extrach the sha1 hash */
     torrentInfo["xt"][0] = torrentInfo["xt"][0].substr(9, torrentInfo["xt"][0].length - 9);
-  
+
   /* remove non-http(s) trackers */
   torrentInfo["tr"].forEach(function(tracker)
    {
      var idx = 0;
    });
-   
+
   if(torrentInfo["tr"].length == 0)
     return {status: 2, text: "No trackers fonud in this magnet link."};
-  
+
   torrentInfo.udpTrackerRequests = new Array();
   torrentInfo.httpTrackerRequests = new Array();
-  
+
   torrentInfo["tr"].forEach(function(tracker) {
     var httpTest = /^https?:\/\//;
     var udpTest = /^udp:\/\//;
@@ -74,10 +77,10 @@ function parseMagnet(magnet)
       {
         torrentInfo["xt"][0] = torrentInfo["xt"][0].substr(0, i) + "%" + torrentInfo["xt"][0].substr(i, torrentInfo["xt"][0].length - i);;
       }
-      torrentInfo.httpTrackerRequests.push(tracker + "?info_hash=" + torrentInfo["xt"][0] + "&peer_id=" + peer_id 
+      torrentInfo.httpTrackerRequests.push(tracker + "?info_hash=" + torrentInfo["xt"][0] + "&peer_id=" + peer_id
        + "&port=" + parseInt(Math.random() * 1000 + 8000) + "&event=started&numwant=150");
     } else
-     
+
     /*
      * TODO: UDP Tracker Support
      */
@@ -85,12 +88,12 @@ function parseMagnet(magnet)
     {
     }
   });
-  
+
   if(torrentInfo.httpTrackerRequests.length == 0 && torrentInfo.udpTrackerRequests.length == 0)
     return {status: 3, text: "No trackers found in the magnet link."};
-  
+
   torrentInfo.status = 0;
   torrentInfo.text = "Magnet link successfully parsed.";
-  
+
   return torrentInfo;
 }
