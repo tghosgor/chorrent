@@ -15,10 +15,6 @@ This file is part of chorrent.
     along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-console.log("window.js loaded.");
+var app = angular.module("app");
 
-var app = angular.module("app", []);
 
-app.controller("dlist_ctrl", function($scope) {
-  $scope.torrents = ["test1", "test2", "test3"];
-});

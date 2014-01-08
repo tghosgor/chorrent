@@ -1,4 +1,4 @@
-/*!
+/*
 This file is part of chorrent.
 
     chorrent is free software: you can redistribute it and/or modify
@@ -14,24 +14,13 @@ This file is part of chorrent.
     You should have received a copy of the GNU General Public License
     along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
 */
-{
-  "manifest_version": 2,
-  
-  "name": "Chorrent",
-  "description": "A torrent client project as a chrome extension. The main aim is to have a sleek and clean UI design and efficient.",
-  "version": "0.0.1",
-  
-  "permissions": [
-    "contextMenus",
-    "fileSystem",
-    {"socket": ["tcp-connect:*:*", "udp-send-to::*"]}
-  ],
-  
-  "app": {
-    "background": {
-      "scripts": [
-        "js/main.js"
-      ]
-    }
-  }
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  min-width: 357px;
+  overflow-x: hidden;
+}
+
+#menu {
+  border-bottom: 1px solid #ddd;
 }

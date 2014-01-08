@@ -14,24 +14,19 @@ This file is part of chorrent.
     You should have received a copy of the GNU General Public License
     along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
 */
-{
-  "manifest_version": 2,
-  
-  "name": "Chorrent",
-  "description": "A torrent client project as a chrome extension. The main aim is to have a sleek and clean UI design and efficient.",
-  "version": "0.0.1",
-  
-  "permissions": [
-    "contextMenus",
-    "fileSystem",
-    {"socket": ["tcp-connect:*:*", "udp-send-to::*"]}
-  ],
-  
-  "app": {
-    "background": {
-      "scripts": [
-        "js/main.js"
-      ]
-    }
-  }
-}
+
+var app = angular.module("app");
+
+app.controller("menu_ctrl", function($scope) {
+  $scope.menuItems = [{
+    name: "Add Torrent",
+    id: "addTorrent",
+    onclick: function() {torrentMgr.chooseTorrentFile();}
+  }];
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  angular.element(document.getElementById("menu")).scope().menuItems.forEach(function(item) {
+      document.getElementById(item.id).addEventListener('click', item.onclick);
+  });
+});

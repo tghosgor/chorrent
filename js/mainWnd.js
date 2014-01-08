@@ -14,24 +14,20 @@ This file is part of chorrent.
     You should have received a copy of the GNU General Public License
     along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+console.log("window.js loaded.");
+
+var app = angular.module("app", []);
+var peerId = "";
+var torrentMgr = new TorrentMgr;
+
+/* generate random peer id */
+for(var i = 0; i < 20; ++i)
 {
-  "manifest_version": 2,
-  
-  "name": "Chorrent",
-  "description": "A torrent client project as a chrome extension. The main aim is to have a sleek and clean UI design and efficient.",
-  "version": "0.0.1",
-  
-  "permissions": [
-    "contextMenus",
-    "fileSystem",
-    {"socket": ["tcp-connect:*:*", "udp-send-to::*"]}
-  ],
-  
-  "app": {
-    "background": {
-      "scripts": [
-        "js/main.js"
-      ]
-    }
-  }
+  var randomIdx = (parseInt(Math.random() * 1000) % 256).toString(16);
+  peerId = peerId + "%" + (randomIdx.length == 1 ? "0" + randomIdx : randomIdx); 
 }
+
+app.controller("dlist_ctrl", function($scope) {
+  $scope.torrents = ["test1", "test2", "test3"];
+});

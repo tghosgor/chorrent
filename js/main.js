@@ -15,18 +15,9 @@ This file is part of chorrent.
     along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-var peer_id = "";
-
 chrome.app.runtime.onLaunched.addListener(function() {
-  /* generate random peer id */
-  for(var i = 0; i < 20; ++i)
-  {
-    var randomIdx = (parseInt(Math.random() * 1000) % 256).toString(16);
-    peer_id = peer_id + "%" + (randomIdx.length == 1 ? "0" + randomIdx : randomIdx); 
-  }
-
-  chrome.app.window.create("html/window.html", {
-    id: "chorrentMainWnd",
+  chrome.app.window.create("html/mainWnd.html", {
+    id: "mainWnd",
     "bounds": {
       "width": 1024,
       "height": 720

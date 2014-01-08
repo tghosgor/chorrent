@@ -30,14 +30,14 @@ This file is part of chorrent.
     You should have received a copy of the GNU General Public License
     along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
 */
-/* line 18, ../sass/window/_main.scss */
+/* line 18, ../sass/addTorrentWindow/_main.scss */
 body {
   font-family: 'Open Sans', sans-serif;
   min-width: 357px;
   overflow-x: hidden;
 }
 
-/* line 24, ../sass/window/_main.scss */
+/* line 24, ../sass/addTorrentWindow/_main.scss */
 #menu {
   border-bottom: 1px solid #ddd;
 }

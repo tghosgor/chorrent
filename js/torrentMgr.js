@@ -1,39 +1,55 @@
 
-var torrents = new Array();
-var torrentMgr = { };
-
-torrentMgr.chooseTorrentFile = function()
+function TorrentMgr()
 {
+  this.torrents = new Array();
+};
+
+TorrentMgr.prototype.chooseTorrentFile = function()
+{
+  var self = this;
   chrome.fileSystem.chooseEntry({
     type: "openFile",
     accepts: [{
       description: ".torrent file",
       extensions: ["torrent"]
     }]
-  }, torrentMgr.readTorrentFileData);
-}
+  }, function(fileEntry){ self.readTorrentFileData(fileEntry); });
+};
 
-torrentMgr.readTorrentFileData = function(fileEntry)
+TorrentMgr.prototype.readTorrentFileData = function(fileEntry)
 {
+  if(fileEntry == undefined)
+  {
+    console.log("User cancelled.");
+    return; /* cancelled */
+  }
+  console.log(this);
+  var self = this;
   fileEntry.file(function(file) {
     var reader = new FileReader();
-    reader.onload = torrentMgr.parseTorrentFileData;
+    reader.onload = function(e){ self.parseTorrentFileData(e); };
     reader.readAsBinaryString(file);
   });
-}
+};
 
-torrentMgr.parseTorrentFileData = function(e)
+TorrentMgr.prototype.parseTorrentFileData = function(e)
 {
   var torrent = Bencode.decode(e.target.result);
-  torrentMgr.createWindow(torrent);
-}
+  console.log(torrent);
+  this.createWindow(torrent);
+};
 
-torrentMgr.createWindow = function(torrent)
+TorrentMgr.prototype.createWindow = function(torrent)
+{
+  chrome.app.window.create("html/addTorrentWnd.html", {
+    "bounds": {
+      "width": 600,
+      "height": 400
+    }
+  });
+};
+
+TorrentMgr.prototype.addTorrent = function(data)
 {
   
-}
-
-torrentMgr.addTorrent = function(data)
-{
-  
-}
+};
