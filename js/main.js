@@ -14,25 +14,22 @@ This file is part of chorrent.
     You should have received a copy of the GNU General Public License
     along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
 */
-{
-  "manifest_version": 2,
-  
-  "name": "Chorrent",
-  "description": "A torrent client project as a chrome extension. The main aim is to have a sleek and clean UI design and efficient.",
-  "version": "0.0.1",
-  
-  "permissions": [
-    "contextMenus",
-    "fileSystem",
-    {"socket": ["tcp-connect:*:*", "udp-send-to::*"]}
-  ],
-  
-  "app": {
-    "background": {
-      "scripts": [
-        "js/main.js",
-        "js/linkgrab.js"
-      ]
-    }
+
+var peer_id = "";
+
+chrome.app.runtime.onLaunched.addListener(function() {
+  /* generate random peer id */
+  for(var i = 0; i < 20; ++i)
+  {
+    var randomIdx = (parseInt(Math.random() * 1000) % 256).toString(16);
+    peer_id = peer_id + "%" + (randomIdx.length == 1 ? "0" + randomIdx : randomIdx); 
   }
-}
+
+  chrome.app.window.create("html/window.html", {
+    id: "chorrentMainWnd",
+    "bounds": {
+      "width": 1024,
+      "height": 720
+    }
+  });
+});

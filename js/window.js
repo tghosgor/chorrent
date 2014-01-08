@@ -15,8 +15,10 @@ This file is part of chorrent.
     along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-body {
-  font-family: 'Open Sans', sans-serif;
-  min-width: 357px;
-  overflow-x: hidden;
-}
+console.log("window.js loaded.");
+
+var app = angular.module("app", []);
+
+app.controller("dlist_ctrl", function($scope) {
+  $scope.torrents = ["test1", "test2", "test3"];
+});

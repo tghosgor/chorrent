@@ -15,4 +15,18 @@ This file is part of chorrent.
     along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-@import "popup/_main.scss"
+var app = angular.module("app");
+
+app.controller("menu_ctrl", function($scope) {
+  $scope.menuItems = [{
+    name: "Add Torrent",
+    id: "addTorrent",
+    onclick: torrentMgr.chooseTorrentFile
+  }];
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  angular.element(document.getElementById("menu")).scope().menuItems.forEach(function(item) {
+      document.getElementById(item.id).addEventListener('click', item.onclick);
+  });
+});
