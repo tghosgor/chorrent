@@ -15,7 +15,7 @@ This file is part of chorrent.
     along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-var app = angular.module("app");
+var app = angular.module("mainWnd");
 
 app.controller("menu_ctrl", function($scope) {
   $scope.menuItems = [{

@@ -17,7 +17,7 @@ This file is part of chorrent.
 
 console.log("window.js loaded.");
 
-var app = angular.module("app", []);
+var app = angular.module("mainWnd", []);
 var peerId = "";
 var torrentMgr = new TorrentMgr;
 

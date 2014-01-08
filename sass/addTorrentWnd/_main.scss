@@ -15,12 +15,23 @@ This file is part of chorrent.
     along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-body {
+body
+{
   font-family: 'Open Sans', sans-serif;
   min-width: 357px;
   overflow-x: hidden;
 }
 
-#menu {
-  border-bottom: 1px solid #ddd;
+button
+{
+  padding: 2px 10px;
+  border-radius: 3px;
+  background: linear-gradient(to bottom, darken(#fff, 3%) 0%, darken(#fff, 7%) 100%);
+}
+
+#actionButtons
+{
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
 }

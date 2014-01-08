@@ -23,7 +23,6 @@ TorrentMgr.prototype.readTorrentFileData = function(fileEntry)
     console.log("User cancelled.");
     return; /* cancelled */
   }
-  console.log(this);
   var self = this;
   fileEntry.file(function(file) {
     var reader = new FileReader();
@@ -35,7 +34,6 @@ TorrentMgr.prototype.readTorrentFileData = function(fileEntry)
 TorrentMgr.prototype.parseTorrentFileData = function(e)
 {
   var torrent = Bencode.decode(e.target.result);
-  console.log(torrent);
   this.createWindow(torrent);
 };
 
@@ -46,6 +44,8 @@ TorrentMgr.prototype.createWindow = function(torrent)
       "width": 600,
       "height": 400
     }
+  }, function(createdWindow) {
+    createdWindow.contentWindow.torrentData = torrent;
   });
 };
 
