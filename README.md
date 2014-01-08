@@ -1,9 +1,9 @@
 chorrent
 =========
 
-A torrent client project as a Chrome extension. The main aim is to have a sleek and clean UI design and and extensive configuration options for power users.
+A torrent client project as a chrome extension. The main focus is to have a sleek and clean UI design, being cross-platform and having extensive configuration options for power users.
 
-This Chrome app is meant to be written in pure javascript, which means it will be cross platform (most extensions I have seen doesn't care about Linux somehow although torrent is constantly used on there) and will run anywhere that Chrome runs.
+This chrome app is meant to be written in pure javascript, which means it will be cross-platform and will run anywhere that chrome runs. (the only extensions I have seen doesn't care about Linux somehow although torrent is constantly used, and like it is not enough, one also requires external application to be set up).
 
 Looking forward for pull requests, especially about artwork and ui design.
 
