@@ -1,4 +1,4 @@
-/*
+/*!
 This file is part of chorrent.
 
     chorrent is free software: you can redistribute it and/or modify
