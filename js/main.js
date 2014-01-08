@@ -19,7 +19,6 @@ This file is part of chorrent.
 */
 
 var peerId = "";
-var torrentMgr = new TorrentMgr();
 var torrents = ["test1", "test2", "test3"];
 
 /* generate random peer id */

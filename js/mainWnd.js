@@ -20,6 +20,8 @@ This file is part of chorrent.
 
 console.log("window.js loaded.");
 
+var torrentMgr = new TorrentMgr();
+
 var app = angular.module("mainWnd", []);
 
 app.controller("dlistCtrl", function($scope) {

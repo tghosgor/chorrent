@@ -24,7 +24,9 @@ app.controller("menuCtrl", function($scope) {
   $scope.menuItems = [{
     name: "Add Torrent",
     id: "addTorrent",
-    onclick: function() {torrentMgr.chooseTorrentFile();}
+    onclick: function() {
+      torrentMgr.chooseTorrentFile();
+    }
   }];
 });
 

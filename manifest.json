@@ -25,7 +25,6 @@ This file is part of chorrent.
   "version": "0.0.1",
 
   "permissions": [
-    "contextMenus",
     "fileSystem",
     {"socket": ["tcp-connect:*:*", "udp-send-to::*"]}
   ],
