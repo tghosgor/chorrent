@@ -9,4 +9,4 @@ Looking forward for pull requests, especially about artwork and ui design.
 
 #### :star: You can 'Watch' to be notified of the news and development status. Give a star for moral support. :)
 
-You can [donate via Crowdrise](http://www.crowdrise.com/ChorrentClientAppChrome/fundraiser/tghosgor) or [donate via PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TR52EYN5SPZQS).
+You can also [donate via Crowdrise](http://www.crowdrise.com/ChorrentClientAppChrome/fundraiser/tghosgor) or [donate via PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TR52EYN5SPZQS).
