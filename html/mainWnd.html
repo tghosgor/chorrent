@@ -15,17 +15,17 @@ This file is part of chorrent.
     along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <!DOCTYPE html>
-<html data-ng-app="mainWnd">
+<html data-ng-app="mainWnd" data-ng-csp>
   <head>
     <title>Chorrent Client 0.0.1</title>
     
     <link href="../css/mainWnd.css" rel="stylesheet" type="text/css">
   </head>
   <body>
-    <div id="menu" data-ng-controller="menu_ctrl">
+    <div id="menu" data-ng-controller="menuCtrl">
       <div id="addTorrent" data-ng-repeat="item in menuItems">{{item.name}}</div>
     </div>
-    <div data-ng-controller="dlist_ctrl">
+    <div data-ng-controller="dlistCtrl">
       <span class="caption">Downloads</span>
       <div data-ng-repeat="item in torrents">
         {{item}}

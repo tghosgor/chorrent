@@ -33,11 +33,11 @@ TorrentMgr.prototype.readTorrentFileData = function(fileEntry)
 
 TorrentMgr.prototype.parseTorrentFileData = function(e)
 {
-  var torrent = Bencode.decode(e.target.result);
-  this.createWindow(torrent);
+  var torrentData = Bencode.decode(e.target.result);
+  this.createWindow(torrentData);
 };
 
-TorrentMgr.prototype.createWindow = function(torrent)
+TorrentMgr.prototype.createWindow = function(torrentData)
 {
   chrome.app.window.create("html/addTorrentWnd.html", {
     "bounds": {
@@ -45,7 +45,7 @@ TorrentMgr.prototype.createWindow = function(torrent)
       "height": 400
     }
   }, function(createdWindow) {
-    createdWindow.contentWindow.torrentData = torrent;
+    createdWindow.contentWindow.torrentData = torrentData;
   });
 };
 

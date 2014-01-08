@@ -29,9 +29,29 @@ button
   background: linear-gradient(to bottom, darken(#fff, 3%) 0%, darken(#fff, 7%) 100%);
 }
 
-#actionButtons
+#actionBtns
 {
   position: absolute;
   bottom: 10px;
   right: 10px;
+}
+
+.caption
+{
+  text-decoration: underline;
+}
+
+#files
+{
+  border: 1px solid #ddd;
+  height: 150px;
+  overflow-y: auto;
+  
+  .file {
+    color: #999;
+    
+    input {
+      vertical-align: middle;
+    }
+  }
 }

@@ -15,8 +15,17 @@ This file is part of chorrent.
     along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-var app = angular.module("torrentWnd", []);
+var app = angular.module("addTorrentWnd", []);
 
+app.controller("mainCtrl", function($scope) {
+  $scope.files = torrentData.info.files;
+});
+  
 document.addEventListener("DOMContentLoaded", function () {
   console.log(torrentData);
+  
+  document.querySelector("#addBtn").addEventListener("click", function() { });
+  document.querySelector("#cancelBtn").addEventListener("click", function() { window.close(); } );
+  var checkboxes = document.querySelector("#files").querySelectorAll("input[type='checkbox'][checked='checked']");
+  console.log(checkboxes);
 });

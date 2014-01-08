@@ -17,7 +17,7 @@ This file is part of chorrent.
 
 var app = angular.module("mainWnd");
 
-app.controller("menu_ctrl", function($scope) {
+app.controller("menuCtrl", function($scope) {
   $scope.menuItems = [{
     name: "Add Torrent",
     id: "addTorrent",

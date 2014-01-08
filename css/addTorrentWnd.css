@@ -45,10 +45,30 @@ button {
 }
 
 /* line 33, ../sass/addTorrentWnd/_main.scss */
-#actionButtons {
+#actionBtns {
   position: absolute;
   bottom: 10px;
   right: 10px;
+}
+
+/* line 40, ../sass/addTorrentWnd/_main.scss */
+.caption {
+  text-decoration: underline;
+}
+
+/* line 45, ../sass/addTorrentWnd/_main.scss */
+#files {
+  border: 1px solid #ddd;
+  height: 150px;
+  overflow-y: auto;
+}
+/* line 50, ../sass/addTorrentWnd/_main.scss */
+#files .file {
+  color: #999;
+}
+/* line 53, ../sass/addTorrentWnd/_main.scss */
+#files .file input {
+  vertical-align: middle;
 }
 
 /*

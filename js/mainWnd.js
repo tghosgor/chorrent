@@ -28,6 +28,6 @@ for(var i = 0; i < 20; ++i)
   peerId = peerId + "%" + (randomIdx.length == 1 ? "0" + randomIdx : randomIdx); 
 }
 
-app.controller("dlist_ctrl", function($scope) {
+app.controller("dlistCtrl", function($scope) {
   $scope.torrents = ["test1", "test2", "test3"];
 });
