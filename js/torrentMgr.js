@@ -64,11 +64,6 @@ TorrentMgr.prototype.createWindow = function(torrentData)
       "height": 400
     }
   }, function(createdWindow) {
-    createdWindow.contentWindow.torrentData = torrentData;
+    createdWindow.contentWindow.torrent = new Torrent(torrentData);
   });
-};
-
-TorrentMgr.prototype.addTorrent = function(data)
-{
-
 };

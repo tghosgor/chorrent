@@ -26,6 +26,7 @@ This file is part of chorrent.
   </head>
   <body data-ng-controller="mainCtrl">
     <div id="title">{{info.name}}</div>
+    <div id="size">{{torrent.size() / 1024 / 1024}} MB</div>
 
     <div id="filesCont" data-ng-hide="!files.length">
       <span class="caption">Files</span>
@@ -42,6 +43,7 @@ This file is part of chorrent.
     </div>
 
     <script src="../js/angular.js" type="text/javascript"></script>
+    <script src="../js/Torrent.js" type="text/javascript"></script>
     <script src="../js/addTorrentWnd.js" type="text/javascript"></script>
   </body>
 </html>

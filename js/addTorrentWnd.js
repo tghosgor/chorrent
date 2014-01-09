@@ -21,15 +21,20 @@ This file is part of chorrent.
 var app = angular.module("addTorrentWnd", []);
 
 app.controller("mainCtrl", function($scope) {
-  $scope.info = torrentData.info;
-  $scope.files = torrentData.info.files;
+  $scope.torrent = torrent;
+  $scope.info = torrent.data.info;
+  $scope.files = torrent.data.info.files;
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  console.log(torrentData);
+  console.log(torrent);
 
-  document.querySelector("#addBtn").addEventListener("click", function() { });
+  document.querySelector("#addBtn").addEventListener("click", function() {
+      chrome.runtime.getBackgroundPage(function(root) {
+        root.torrents.push(torrent);
+        console.log(root.torrents);
+      });
+  });
   document.querySelector("#cancelBtn").addEventListener("click", function() { window.close(); } );
   var checkboxes = document.querySelector("#files").querySelectorAll("input[type='checkbox'][checked='checked']");
-  console.log(checkboxes);
 });
