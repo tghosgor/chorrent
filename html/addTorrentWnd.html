@@ -26,13 +26,13 @@ This file is part of chorrent.
   </head>
   <body data-ng-controller="mainCtrl">
     <div id="title">{{info.name}}</div>
-    <div id="size">{{torrent.size() / 1024 / 1024}} MB</div>
+    <div id="size">{{torrent.size() / 1024 / 1024 | number:2}} MB</div>
 
     <div id="filesCont" data-ng-hide="!files.length">
       <span class="caption">Files</span>
       <div id="files">
         <div class="file" data-ng-repeat="file in files">
-          <label><input type="checkbox" value="{{$index}}" checked="checked">&nbsp;{{file.path[0]}}</label>
+          <label><input type="checkbox" value="{{$index}}" checked="checked"><span class="name">{{file.path[0]}}</span><span class="size" style="float: right;">{{file.length / 1024 / 1024 | number:2}} MB</span></label>
         </div>
       </div>
       <span class="button" id="selectAll">Select All</span> | <span class="button" id="deselectAll">Deselect All</span>

@@ -41,20 +41,26 @@ button
 
 .caption
 {
-  text-decoration: underline;
+  font-weight: bold;
 }
 
-#files
+#filesCont
 {
-  border: 1px solid #ddd;
-  height: 150px;
-  overflow-y: auto;
+  margin: 2px 0;
 
-  .file {
-    color: #999;
+  #files
+  {
+    border: 1px solid #ddd;
+    height: 150px;
+    padding: 2px;
+    overflow-y: auto;
 
-    input {
-      vertical-align: middle;
+    .file {
+      color: #666;
+
+      input {
+        vertical-align: middle;
+      }
     }
   }
 }

@@ -60,21 +60,26 @@ button {
 
 /* line 43, ../sass/addTorrentWnd/_main.scss */
 .caption {
-  text-decoration: underline;
+  font-weight: bold;
 }
 
 /* line 48, ../sass/addTorrentWnd/_main.scss */
-#files {
+#filesCont {
+  margin: 2px 0;
+}
+/* line 52, ../sass/addTorrentWnd/_main.scss */
+#filesCont #files {
   border: 1px solid #ddd;
   height: 150px;
+  padding: 2px;
   overflow-y: auto;
 }
-/* line 53, ../sass/addTorrentWnd/_main.scss */
-#files .file {
-  color: #999;
+/* line 58, ../sass/addTorrentWnd/_main.scss */
+#filesCont #files .file {
+  color: #666;
 }
-/* line 56, ../sass/addTorrentWnd/_main.scss */
-#files .file input {
+/* line 61, ../sass/addTorrentWnd/_main.scss */
+#filesCont #files .file input {
   vertical-align: middle;
 }
 
