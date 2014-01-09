@@ -20,12 +20,14 @@ This file is part of chorrent.
 {
   "manifest_version": 2,
 
-  "name": "Chorrent",
+  "name": "Chorrent: a Torrent Client Extension for Chrome",
+  "short_name": "Chorrent",
   "description": "A torrent client project as a chrome extension. The main aim is to have a sleek and clean UI design and efficient.",
   "version": "0.0.1",
+  "minimum_chrome_version": "31.0",
 
   "permissions": [
-    "fileSystem",
+    {"fileSystem": ["write", "retainEntries", "directory"]},
     {"socket": ["tcp-connect:*:*", "udp-send-to::*"]}
   ],
 
