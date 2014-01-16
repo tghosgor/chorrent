@@ -45,25 +45,28 @@ TorrentMgr.prototype.openTorrentFile = function(fileEntry)
   var self = this;
   fileEntry.file(function(file) {
     var reader = new FileReader();
-    reader.onload = function(e){ self.parseTorrentFileData(e); };
+    reader.onload = function(e) {
+      /*! parse bencoded torrent data */
+      var torrentData = Bencode.decode(e.target.result);
+
+      /*! open an 'Add Torrent' window */
+      chrome.app.window.create("html/addTorrentWnd.html", {
+        "bounds": {
+          "width": 600,
+          "height": 400
+        }
+      }, function(createdWindow) {
+        createdWindow.contentWindow.torrent = new Torrent(torrentData);
+      });
+    };
     reader.readAsBinaryString(file);
   });
 };
 
 TorrentMgr.prototype.parseTorrentFileData = function(e)
 {
-  var torrentData = Bencode.decode(e.target.result);
-  this.createWindow(torrentData);
 };
 
 TorrentMgr.prototype.createWindow = function(torrentData)
 {
-  chrome.app.window.create("html/addTorrentWnd.html", {
-    "bounds": {
-      "width": 600,
-      "height": 400
-    }
-  }, function(createdWindow) {
-    createdWindow.contentWindow.torrent = new Torrent(torrentData);
-  });
 };
