@@ -32,10 +32,10 @@ TorrentMgr.prototype.chooseTorrentFile = function()
       description: ".torrent file",
       extensions: ["torrent"]
     }]
-  }, function(fileEntry){ self.readTorrentFileData(fileEntry); });
+  }, function(fileEntry){ self.openTorrentFile(fileEntry); });
 };
 
-TorrentMgr.prototype.readTorrentFileData = function(fileEntry)
+TorrentMgr.prototype.openTorrentFile = function(fileEntry)
 {
   if(fileEntry == undefined)
   {
