@@ -3,11 +3,16 @@ function Torrent(torrentData)
   this.data = torrentData;
   this.structuredPaths = new Array();
   var self = this;
-  this.data.info.files.forEach(function(e) {
-    e.path.forEach(function(e2, index, array) {
-      //TODO: find a js tree checkbox lib and generate compatible structure
+
+  /* if torrent has multiple files */
+  if(this.data.info.files)
+  {
+    this.data.info.files.forEach(function(e) {
+      e.path.forEach(function(e2, index, array) {
+        //TODO: find a js tree checkbox lib and generate compatible structure
+      });
     });
-  });
+  }
   console.log(self.structuredPaths);
 }
 
