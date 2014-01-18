@@ -35,7 +35,6 @@ This file is part of chorrent.
   "app": {
     "background": {
       "scripts": [
-        "js/TorrentMgr.js",
         "js/main.js"
       ]
     }
