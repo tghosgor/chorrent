@@ -18,7 +18,8 @@ This file is part of chorrent.
     along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-function Utility() { }
+function Utility()
+{ }
 
 Utility.prototype.assign = function(obj, prop, value) {
     if (typeof prop === "string")

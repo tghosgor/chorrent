@@ -22,8 +22,8 @@ var app = angular.module("addTorrentWnd", []);
 
 app.controller("mainCtrl", function($scope) {
   $scope.torrent = torrent;
-  $scope.info = torrent.data.info;
-  $scope.files = torrent.data.info.files;
+  $scope.info = torrent.metadata.info;
+  $scope.files = torrent.metadata.info.files;
 });
 
 document.addEventListener("DOMContentLoaded", function () {

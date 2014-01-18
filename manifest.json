@@ -28,7 +28,8 @@ This file is part of chorrent.
 
   "permissions": [
     {"fileSystem": ["write", "retainEntries", "directory"]},
-    {"socket": ["tcp-connect:*:*", "udp-send-to::*"]}
+    {"socket": ["tcp-connect:*:*", "udp-send-to::*"]},
+    "*://*/"
   ],
 
   "app": {

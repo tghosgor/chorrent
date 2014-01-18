@@ -75,7 +75,7 @@ function parseMagnet(magnet)
       /* url-encode the binary encoded hash */
       for(var i = torrentInfo["xt"][0].length - 2; i >= 0; i-=2)
       {
-        torrentInfo["xt"][0] = torrentInfo["xt"][0].substr(0, i) + "%" + torrentInfo["xt"][0].substr(i, torrentInfo["xt"][0].length - i);;
+        torrentInfo["xt"][0] = torrentInfo["xt"][0].substr(0, i) + "%" + torrentInfo["xt"][0].substr(i, torrentInfo["xt"][0].length - i);
       }
       torrentInfo.httpTrackerRequests.push(tracker + "?info_hash=" + torrentInfo["xt"][0] + "&peer_id=" + peer_id
        + "&port=" + parseInt(Math.random() * 1000 + 8000) + "&event=started&numwant=150");
