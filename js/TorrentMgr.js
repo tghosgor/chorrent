@@ -23,7 +23,7 @@ console.log(Bencode.decode("d8:intervali900e5:peersld2:ip14:88.138.113.2444:port
 
 function TorrentMgr()
 {
-  this.torrents = new Array();
+  this.torrents = new Array
 };
 
 TorrentMgr.prototype.chooseTorrentFile = function()

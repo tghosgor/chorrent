@@ -44,7 +44,7 @@ function parseMagnet(magnet)
   while(match = parseRegex.exec(magnet))
   {
     if(!torrentInfo[match[1]])
-      torrentInfo[match[1]] = new Array();
+      torrentInfo[match[1]] = new Array;
     torrentInfo[match[1]].push(match[2]);
   }
 
@@ -64,8 +64,8 @@ function parseMagnet(magnet)
   if(torrentInfo["tr"].length == 0)
     return {status: 2, text: "No trackers fonud in this magnet link."};
 
-  torrentInfo.udpTrackerRequests = new Array();
-  torrentInfo.httpTrackerRequests = new Array();
+  torrentInfo.udpTrackerRequests = new Array;
+  torrentInfo.httpTrackerRequests = new Array;
 
   torrentInfo["tr"].forEach(function(tracker) {
     var httpTest = /^https?:\/\//;

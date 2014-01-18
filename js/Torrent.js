@@ -21,14 +21,14 @@ This file is part of chorrent.
 function Torrent(torrentData, peerId)
 {
   this.metadata = torrentData;
-  this.structuredPaths = new Array();
-  this.httpTrackers = new Array();
-  this.udpTrackers = new Array();
-  this.peers = new Array();
+  this.structuredPaths = new Array;
+  this.httpTrackers = new Array;
+  this.udpTrackers = new Array;
+  this.peers = new Array
   var self = this;
 
   /* generate random peer id for this torrent if none given */
-  if(peerId == undefined)
+  if(peerId === undefined)
   {
     this.peerId = "";
     for(var i = 0; i < 20; ++i)
@@ -41,7 +41,7 @@ function Torrent(torrentData, peerId)
   /* store trackers seperately according to protocol */
   var protocolRegex = [/^http(s):\/\//, /udp:\/\//];
 
-  if(typeof this.metadata["announce-list"] != "undefined")
+  if(this.metadata["announce-list"] !== undefined)
   {
     this.metadata["announce-list"].forEach(function(tracker) {
       if(tracker[0].match(protocolRegex[0]))
@@ -73,7 +73,7 @@ function Torrent(torrentData, peerId)
   this.infoHash = sha1.digest(Bencode.encode(this.metadata.info));
 
   /* percent encode the hex string of sha1 */
-  this.peInfoHash = new String();
+  this.peInfoHash = new String;
   for(var i = 0; i < 40; i += 2)
   {
     this.peInfoHash = this.peInfoHash + "%" + this.infoHash.substr(i, 2);
