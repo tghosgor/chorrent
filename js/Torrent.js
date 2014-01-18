@@ -86,7 +86,7 @@ Torrent.prototype.getPeers = function()
   xhr.send();
 }
 
-Torrent.prototype.onPeersChanged()
+Torrent.prototype.onPeersChanged = function()
 {
 }
 

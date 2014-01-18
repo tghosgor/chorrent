@@ -23,7 +23,7 @@ This file is part of chorrent.
   "name": "Chorrent: a Torrent Client Extension for Chrome",
   "short_name": "Chorrent",
   "description": "A torrent client project as a chrome extension. The main aim is to have a sleek and clean UI design and efficient.",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "minimum_chrome_version": "31.0",
 
   "permissions": [
