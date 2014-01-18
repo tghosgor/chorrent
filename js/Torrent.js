@@ -22,6 +22,9 @@ function Torrent(torrentData, peerId)
 {
   this.metadata = torrentData;
   this.structuredPaths = new Array();
+  this.httpTrackers = new Array();
+  this.udpTrackers = new Array();
+  this.peers = new Array();
   var self = this;
 
   /* generate random peer id for this torrent if none given */
@@ -33,6 +36,26 @@ function Torrent(torrentData, peerId)
       var randomIdx = (parseInt(Math.random() * 1000) % 256).toString(16);
       this.peerId = this.peerId + "%" + (randomIdx.length > 1 ? randomIdx : "0" + randomIdx);
     };
+  }
+
+  /* store trackers seperately according to protocol */
+  var protocolRegex = [/^http(s):\/\//, /udp:\/\//];
+
+  if(typeof this.metadata["announce-list"] != "undefined")
+  {
+    this.metadata["announce-list"].forEach(function(tracker) {
+      if(tracker[0].match(protocolRegex[0]))
+        self.httpTrackers.push(tracker[0]);
+      else if(tracker[0].match(protocolRegex[1]))
+        self.udpTrackers.push(tracker[0]);
+    });
+  } else
+  {
+    /* here because always the same with one in announce-list? */
+    if(this.metadata.announce.match(protocolRegex[0]))
+      this.httpTrackers.push(this.metadata.announce);
+    else if(this.metadata.announce.match(protocolRegex[1]))
+      this.udpTrackers.push(this.metadata.announce);
   }
 
   /* if torrent has multiple files */
@@ -56,34 +79,36 @@ function Torrent(torrentData, peerId)
     this.peInfoHash = this.peInfoHash + "%" + this.infoHash.substr(i, 2);
   }
 
-  this.getPeers();
+  this.updatePeers();
 }
 
-Torrent.prototype.getPeers = function()
+Torrent.prototype.updatePeers = function()
 {
-  var requestUri = this.metadata.announce + "?info_hash=" + this.peInfoHash + "&peer_id="
-    + this.peerId + "&port=6881&uploaded=0&downloaded=0&left=" + this.size();
-  var xhr = new XMLHttpRequest();
-  var self = this;
-  xhr.onreadystatechange = function() {
-    if(xhr.readyState == 4)
-    {
-      var correctedResponse = xhr.responseText.toString();
-      var regexList = [/5:peers/, /([^d])2\:ip/g, /porti([\d]{2,5})[^e](.+?):/g];
-      var replacementList = ["5:peersl", "$1d2:ip", "porti$1e$2:"];
-      for(var i = 0; i < regexList.length; ++i)
+  this.httpTrackers.forEach(function(tracker) {
+    var requestUri = tracker + "?info_hash=" + this.peInfoHash + "&peer_id="
+      + this.peerId + "&port=6881&uploaded=0&downloaded=0&left=" + this.size();
+    var xhr = new XMLHttpRequest();
+    var self = this;
+    xhr.onreadystatechange = function() {
+      if(xhr.readyState == 4)
       {
-        correctedResponse = correctedResponse.replace(regexList[i], replacementList[i]);
+        var correctedResponse = xhr.responseText.toString();
+        var regexList = [/5:peers/, /([^d])2\:ip/g, /porti([\d]{2,5})[^e](.+?):/g];
+        var replacementList = ["5:peersl", "$1d2:ip", "porti$1e$2:"];
+        for(var i = 0; i < regexList.length; ++i)
+        {
+          correctedResponse = correctedResponse.replace(regexList[i], replacementList[i]);
+        }
+        correctedResponse = correctedResponse.replace(/( )?$/, "e$1");
+
+        self.peers = Bencode.decode(correctedResponse);
+
+        self.onPeersChanged();
       }
-      correctedResponse = correctedResponse.replace(/( )?$/, "e$1");
-
-      self.peers = Bencode.decode(correctedResponse);
-
-      self.onPeersChanged();
-    }
-  };
-  xhr.open("GET", requestUri, true);
-  xhr.send();
+    };
+    xhr.open("GET", requestUri, true);
+    xhr.send();
+  });
 }
 
 Torrent.prototype.onPeersChanged = function()
