@@ -1,23 +1,3 @@
-/*!
-
-Copyright © 2014 Tolga HOŞGÖR
-
-This file is part of chorrent.
-
-    chorrent is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    chorrent is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
 function Utility()
 { }
 
@@ -36,3 +16,25 @@ Utility.prototype.assign = function(obj, prop, value) {
     } else
         obj[prop[0]] = value;
 };
+
+Utility.prototype.swap16 = function(val) {
+  return ((val & 0xFF) << 8)
+    | ((val >> 8) & 0xFF);
+}
+
+Utility.prototype.swap32 = function(val) {
+  return ((val & 0xFF) << 24)
+    | ((val & 0xFF00) << 8)
+    | ((val >> 8) & 0xFF00)
+    | ((val >> 24) & 0xFF);
+}
+
+Utility.prototype.swap64 = function(val) {
+  return ((val & 0xFF) << 56)
+    | ((val & 0xFF00) << 8)
+    | ((val >> 8) & 0xFF00)
+    | ((val >> 24) & 0xFF)
+    | ((val >> 32) & 0xFF)
+    | ((val >> 48) & 0xFF)
+    | ((val >> 56) & 0xFF);
+}
