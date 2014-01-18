@@ -56,10 +56,9 @@ function parseMagnet(magnet)
     torrentInfo["xt"][0] = torrentInfo["xt"][0].substr(9, torrentInfo["xt"][0].length - 9);
 
   /* remove non-http(s) trackers */
-  torrentInfo["tr"].forEach(function(tracker)
-   {
-     var idx = 0;
-   });
+  torrentInfo["tr"].forEach(function(tracker) {
+    var idx = 0;
+  });
 
   if(torrentInfo["tr"].length == 0)
     return {status: 2, text: "No trackers fonud in this magnet link."};
@@ -89,7 +88,7 @@ function parseMagnet(magnet)
     }
   });
 
-  if(torrentInfo.httpTrackerRequests.length == 0 && torrentInfo.udpTrackerRequests.length == 0)
+  if(torrentInfo.httpTrackerRequests.length === 0 && torrentInfo.udpTrackerRequests.length === 0)
     return {status: 3, text: "No trackers found in the magnet link."};
 
   torrentInfo.status = 0;
