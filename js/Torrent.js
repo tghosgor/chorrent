@@ -143,18 +143,12 @@ Torrent.prototype.updatePeers = function()
     connectPacketView[10] = 0x00;
     connectPacketView[11] = 0x00;
 
-    var transactionId = parseInt(Math.random() * 0xffffffff);
+    var transactionId = new Uint32Array(connectPacket, 12, 1);
 
     /*
-     * converting to big endian here, however it does not matter
+     * no need to do any endianness conversion here I guess
      */
-    for(var i = 24; i >= 0; i -= 8)
-      connectPacketView[12 + ((24 - i) / 8)] = (transactionId & (0xFF << i)) >> i;
-
-    var udpDataEvent = function(d) {
-      var data = chrome.socket.read(d.socketId);
-      console.log(data);
-    };
+    transactionId[0] = parseInt(Math.random() * 0xffffffff);
 
     chrome.socket.create("udp", null, function(socketInfo) {
       chrome.socket.connect(socketInfo.socketId, tracker.hostname, tracker.port, function(result) {
@@ -178,8 +172,17 @@ Torrent.prototype.updatePeers = function()
                 {
                   console.log("Error reading from udp://" + tracker.hostname + ":" + tracker.port + ", RC: " + readInfo.resultCode);
                   return;
-                } else
-                  console.log(readInfo.data);
+                } else {
+                  var respAction = new Uint32Array(readInfo.data, 0, 1);
+                  var respTransactionId = new Uint32Array(readInfo.data, 4, 1);
+                  if(respAction[0] === 0 && respTransactionId[0] === transactionId[0])
+                  {
+                    console.log("Successfully connected to tracker.");
+                    var connectionId = new Uint32Array(readInfo.data, 8, 2);
+                  } else {
+                    console.log("Tracker connection transaction ids do not match; sent: " + transactionId[0] + ", received: " + respTransactionId[0]);
+                  }
+                }
               });
             }
           });
