@@ -111,85 +111,8 @@ Torrent.prototype.updatePeers = function()
     xhr.send();
   });
 
-  /* init udp packets */
-
-  /*
-    int64_t	connection_id:
-      Must be initialized to 0x41727101980 in network byte order. This will identify the protocol.
-    int32_t	action:
-      0 for a connection request
-    int32_t	transaction_id:
-      Randomized by client.
-  */
-  //TODO: in emscripten?
-
   this.udpTrackers.forEach(function(tracker) {
-    var connectPacket = new ArrayBuffer(16);
-    var connectPacketView = new Uint8Array(connectPacket);
-
-    /* connection_id */
-    connectPacketView[7] = 0x80;
-    connectPacketView[6] = 0x19;
-    connectPacketView[5] = 0x10;
-    connectPacketView[4] = 0x27;
-    connectPacketView[3] = 0x17;
-    connectPacketView[2] = 0x04;
-    connectPacketView[1] = 0x00;
-    connectPacketView[0] = 0x00;
-
-    /* action */
-    connectPacketView[8] = 0x00;
-    connectPacketView[9] = 0x00;
-    connectPacketView[10] = 0x00;
-    connectPacketView[11] = 0x00;
-
-    var transactionId = new Uint32Array(connectPacket, 12, 1);
-
-    /*
-     * no need to do any endianness conversion here I guess
-     */
-    transactionId[0] = parseInt(Math.random() * 0xffffffff);
-
-    chrome.socket.create("udp", null, function(socketInfo) {
-      chrome.socket.connect(socketInfo.socketId, tracker.hostname, tracker.port, function(result) {
-        if(result !== 0)
-        {
-          console.log("Failed to set socket to communicate with udp://" + tracker.hostname + ":" + tracker.port);
-          return;
-        } else {
-          console.log("Set socket to communicate to udp://" + tracker.hostname + ":" + tracker.port);
-
-          chrome.socket.write(socketInfo.socketId, connectPacket, function(writeInfo) {
-            if(writeInfo.bytesWritten < 0)
-            {
-              console.log("Could not send connect packet to udp://" + tracker.hostname + ":" + tracker.port);
-              return;
-            } else {
-              console.log("Sent " + writeInfo.bytesWritten + " bytes.");
-
-              chrome.socket.read(socketInfo.socketId, function(readInfo) {
-                if(readInfo.resultCode < 0)
-                {
-                  console.log("Error reading from udp://" + tracker.hostname + ":" + tracker.port + ", RC: " + readInfo.resultCode);
-                  return;
-                } else {
-                  var respAction = new Uint32Array(readInfo.data, 0, 1);
-                  var respTransactionId = new Uint32Array(readInfo.data, 4, 1);
-                  if(respAction[0] === 0 && respTransactionId[0] === transactionId[0])
-                  {
-                    console.log("Successfully connected to tracker.");
-                    var connectionId = new Uint32Array(readInfo.data, 8, 2);
-                  } else {
-                    console.log("Tracker connection transaction ids do not match; sent: " + transactionId[0] + ", received: " + respTransactionId[0]);
-                  }
-                }
-              });
-            }
-          });
-        }
-      });
-    });
-
+    var udpTracker = new UdpTracker(tracker);
   });
 }
 
