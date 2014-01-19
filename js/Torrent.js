@@ -20,23 +20,27 @@ This file is part of chorrent.
 
 function Torrent(torrentData, peerId)
 {
+  var self = this;
+
   this.metadata = torrentData;
   this.structuredPaths = new Array;
+  this.peerId = new Int8Array(20);
   this.httpTrackers = new Array;
   this.udpTrackers = new Array;
-  this.peers = new Array
-  var self = this;
+  this.peers = new Array;
+  this.seeders = new Int32Array(1);
+  this.leechers = new Int32Array(1);
 
   /* generate random peer id for this torrent if none given */
   if(peerId === undefined)
   {
-    this.peerId = "";
     for(var i = 0; i < 20; ++i)
     {
-      var randomIdx = (parseInt(Math.random() * 1000) % 256).toString(16);
-      this.peerId = this.peerId + "%" + (randomIdx.length > 1 ? randomIdx : "0" + randomIdx);
+      this.peerId[i] = Math.floor(Math.random() * 256);
     };
   }
+  else
+    this.peerId = peerId;
 
   /* store trackers seperately according to protocol */
   var protocolRegex = [/^http(s):\/\//, /^udp:\/\/(.+?)(?::([\d]+))?\//];
@@ -71,13 +75,14 @@ function Torrent(torrentData, peerId)
 
   /* get sha1 of bencoded torrent metadata info */
   var sha1 = new Rusha(this.metadata.info.length);
-  this.infoHash = sha1.digest(Bencode.encode(this.metadata.info));
+  var infoHashStr = sha1.digest(Bencode.encode(this.metadata.info));
+  this.infoHash = new Int8Array(Utility.hexstr2ab(infoHashStr));
 
   /* percent encode the hex string of sha1 */
   this.peInfoHash = new String;
   for(var i = 0; i < 40; i += 2)
   {
-    this.peInfoHash = this.peInfoHash + "%" + this.infoHash.substr(i, 2);
+    this.peInfoHash = this.peInfoHash + "%" + infoHashStr.substr(i, 2);
   }
 
   this.updatePeers();
@@ -85,11 +90,12 @@ function Torrent(torrentData, peerId)
 
 Torrent.prototype.updatePeers = function()
 {
+  var self = this;
+
   this.httpTrackers.forEach(function(tracker) {
     var requestUri = tracker + "?info_hash=" + this.peInfoHash + "&peer_id="
       + this.peerId + "&port=6881&uploaded=0&downloaded=0&left=" + this.size();
     var xhr = new XMLHttpRequest();
-    var self = this;
     xhr.onreadystatechange = function() {
       if(xhr.readyState == 4)
       {
@@ -112,7 +118,7 @@ Torrent.prototype.updatePeers = function()
   });
 
   this.udpTrackers.forEach(function(tracker) {
-    var udpTracker = new UdpTracker(tracker);
+    var udpTracker = new UdpTracker(tracker, self);
   });
 }
 
