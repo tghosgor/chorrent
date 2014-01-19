@@ -76,7 +76,7 @@ function Torrent(torrentData, peerId)
   /* get sha1 of bencoded torrent metadata info */
   var sha1 = new Rusha(this.metadata.info.length);
   var infoHashStr = sha1.digest(Bencode.encode(this.metadata.info));
-  this.infoHash = new Int8Array(Utility.hexstr2ab(infoHashStr));
+  this.infoHash = new Int8Array(Utility.hexStr2ab(infoHashStr));
 
   /* percent encode the hex string of sha1 */
   this.peInfoHash = new String;

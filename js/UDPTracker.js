@@ -144,8 +144,8 @@ UdpTracker.prototype.announce = function()
   var annPacketPort = new Uint16Array(annPacket, 96, 1);
 
   annPacketConnId.set(this.connectionId);
-  annPacketAction[0] = 1;
-  annPacketTransId[0] = Math.random() * 0xffffffff;
+  annPacketAction[0] = Utility.bs32(1);
+  annPacketTransId[0] = Math.ceil(Math.random() * 0xffffffff);
   annPacketInfoHash.set(this.torrent.infoHash);
   annPacketPeerId.set(this.torrent.peerId);
   annPacketDownloaded[0] = 0;
@@ -156,22 +156,23 @@ UdpTracker.prototype.announce = function()
   annPacketUploaded[1] = 0;
   annPacketEvent[0] = 0;
   annPacketIpv4[0] = 0;
-  annPacketNumWant[0] = -1;
-  annPacketPort = 6881;
+  annPacketKey[0] = Math.ceil(Math.random() * 0xffffffff);
+  annPacketNumWant[0] = Utility.bs32(-1);
+  annPacketPort[0] = Utility.bs32(6881);
 
   chrome.socket.write(this.socketId, annPacket, function(writeInfo) {
     if(writeInfo.bytesWritten < 0)
       throw "Error announcing; retval: " + writeInfo.bytesWritten;
 
-    console.log(new Int8Array(annPacket, 0, 98));
+    console.log(new Int8Array(annPacket));
 
-    chrome.socket.read(self.socketId, null, function(readInfo) {
+    chrome.socket.read(self.socketId, function(readInfo) {
       self.announceHandler(readInfo, annPacketTransId);
     });
   });
 };
 
-UdpTracker.prototype.announceHandler = function(writeInfo, transactionId)
+UdpTracker.prototype.announceHandler = function(readInfo, transactionId)
 {
   if(readInfo.resultCode < 0)
     throw "Error reading announce response; RC: " + readInfo.resultCode;
@@ -181,15 +182,17 @@ UdpTracker.prototype.announceHandler = function(writeInfo, transactionId)
 
   if(transactionId[0] !== respTransactionId[0])
     throw "Error in announce response; sent tId: " + transactionId[0] + ", recv tId: " + respTransactionId[0]
-  if(respAction[0] !== 0)
+  if(respAction[0] !== Utility.bs32(0x1))
   {
     var errorStr = Utility.ab2str(new Int8Array(readInfo.data, 8));
-    throw "Error in announce response; action: " + respAction[0] + ", message: " + errorStr;
+    throw "Error in announce response; action: " + Utility.bs32(respAction[0]) + ", message: " + errorStr;
   }
 
   var respInterval = new Int32Array(readInfo.data, 8, 1);
-  self.torrent.leechers.set(readInfo.data, 12, 1);
-  self.torrent.seeders.set(readInfo.data, 16, 1);
+  this.torrent.leechers.set(new Int32Array(
+    Utility.typedArrayBS(new Int32Array(readInfo.data, 12, 1))));
+  this.torrent.seeders.set(new Int32Array(
+    Utility.typedArrayBS(new Int32Array(readInfo.data, 16, 1))));
 
-  console.log(self.torrent);
+  console.log(this.torrent);
 };
