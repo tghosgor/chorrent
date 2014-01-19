@@ -20,8 +20,10 @@ This file is part of chorrent.
 
 function TorrentMgr()
 {
-  this.torrents = new Array
+  this.torrents = new Array;
 };
+
+//TODO: Rename to UiMgr and make TorrentMgr seperate to run as main js in manifest.
 
 TorrentMgr.prototype.chooseTorrentFile = function()
 {
@@ -37,7 +39,7 @@ TorrentMgr.prototype.chooseTorrentFile = function()
 
 TorrentMgr.prototype.openTorrentFile = function(fileEntry)
 {
-  if(fileEntry == undefined)
+  if(fileEntry === undefined)
   {
     console.log("User cancelled.");
     return; /* cancelled */
