@@ -122,26 +122,26 @@ Torrent.prototype.updatePeers = function()
       Randomized by client.
   */
   //TODO: in emscripten?
-  var connectPacket = new ArrayBuffer(16);
-
-  /* connection_id */
-  connectPacket[7] = 0x80;
-  connectPacket[6] = 0x19;
-  connectPacket[5] = 0x10;
-  connectPacket[4] = 0x27;
-  connectPacket[3] = 0x17;
-  connectPacket[2] = 0x04;
-  connectPacket[1] = 0x00;
-  connectPacket[0] = 0x00;
-
-  /* action */
-  connectPacket[8] = 0x00;
-  connectPacket[9] = 0x00;
-  connectPacket[10] = 0x00;
-  connectPacket[11] = 0x00;
 
   this.udpTrackers.forEach(function(tracker) {
-    var localConnectPacket = connectPacket;
+    var connectPacket = new ArrayBuffer(16);
+    var connectPacketView = new Uint8Array(connectPacket);
+
+    /* connection_id */
+    connectPacketView[7] = 0x80;
+    connectPacketView[6] = 0x19;
+    connectPacketView[5] = 0x10;
+    connectPacketView[4] = 0x27;
+    connectPacketView[3] = 0x17;
+    connectPacketView[2] = 0x04;
+    connectPacketView[1] = 0x00;
+    connectPacketView[0] = 0x00;
+
+    /* action */
+    connectPacketView[8] = 0x00;
+    connectPacketView[9] = 0x00;
+    connectPacketView[10] = 0x00;
+    connectPacketView[11] = 0x00;
 
     var transactionId = parseInt(Math.random() * 0xffffffff);
 
@@ -149,42 +149,42 @@ Torrent.prototype.updatePeers = function()
      * converting to big endian here, however it does not matter
      */
     for(var i = 24; i >= 0; i -= 8)
-      localConnectPacket[12 + ((24 - i) / 8)] = (transactionId & (0xFF << i)) >> i;
+      connectPacketView[12 + ((24 - i) / 8)] = (transactionId & (0xFF << i)) >> i;
 
     var udpDataEvent = function(d) {
       var data = chrome.socket.read(d.socketId);
       console.log(data);
     };
 
-    chrome.socket.create("udp", function(socketInfo) {
+    chrome.socket.create("udp", null, function(socketInfo) {
       chrome.socket.connect(socketInfo.socketId, tracker.hostname, tracker.port, function(result) {
         if(result !== 0)
         {
           console.log("Failed to set socket to communicate with udp://" + tracker.hostname + ":" + tracker.port);
           return;
-        } else
-        {
+        } else {
           console.log("Set socket to communicate to udp://" + tracker.hostname + ":" + tracker.port);
 
-          chrome.socket.read(socketInfo.socketId, null, function(readInfo) {
-            if(readInfo.resultCode <= 0)
-            {
-              console.log("Error reading from udp://" + tracker.hostname + ":" + tracker.port + ", RC: " + readInfo.resultCode);
-              return;
-            } else
-              console.log(readInfo.data);
-          });
-
-          chrome.socket.write(socketInfo.socketId, localConnectPacket, function(writeInfo) {
+          chrome.socket.write(socketInfo.socketId, connectPacket, function(writeInfo) {
             if(writeInfo.bytesWritten < 0)
             {
               console.log("Could not send connect packet to udp://" + tracker.hostname + ":" + tracker.port);
               return;
+            } else {
+              console.log("Sent " + writeInfo.bytesWritten + " bytes.");
+
+              chrome.socket.read(socketInfo.socketId, function(readInfo) {
+                if(readInfo.resultCode < 0)
+                {
+                  console.log("Error reading from udp://" + tracker.hostname + ":" + tracker.port + ", RC: " + readInfo.resultCode);
+                  return;
+                } else
+                  console.log(readInfo.data);
+              });
             }
-            console.log("Sent " + writeInfo.bytesWritten + " bytes.");
-            chrome.socket.destroy(socketInfo.socketId);
           });
-      }});
+        }
+      });
     });
 
   });
