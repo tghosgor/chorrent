@@ -18,9 +18,6 @@ This file is part of chorrent.
     along with chorrent.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
-console.log(Bencode.decode("d8:intervali900e5:peersld2:ip14:88.138.113.2444:porti6881eed2:ip14:88.138.113.2444:porti6881eeee  "));
-
 function TorrentMgr()
 {
   this.torrents = new Array

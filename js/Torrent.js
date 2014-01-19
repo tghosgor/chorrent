@@ -39,23 +39,24 @@ function Torrent(torrentData, peerId)
   }
 
   /* store trackers seperately according to protocol */
-  var protocolRegex = [/^http(s):\/\//, /udp:\/\//];
+  var protocolRegex = [/^http(s):\/\//, /^udp:\/\/(.+?)(?::([\d]+))?\//];
 
+  var match;
   if(this.metadata["announce-list"] !== undefined)
   {
     this.metadata["announce-list"].forEach(function(tracker) {
       if(tracker[0].match(protocolRegex[0]))
         self.httpTrackers.push(tracker[0]);
-      else if(tracker[0].match(protocolRegex[1]))
-        self.udpTrackers.push(tracker[0]);
+      else if((match = tracker[0].match(protocolRegex[1])))
+        self.udpTrackers.push({hostname: match[1], port: parseInt(match[2])});
     });
   } else
   {
     /* here because always the same with one in announce-list? */
     if(this.metadata.announce.match(protocolRegex[0]))
       this.httpTrackers.push(this.metadata.announce);
-    else if(this.metadata.announce.match(protocolRegex[1]))
-      this.udpTrackers.push(this.metadata.announce);
+    else if((match = this.metadata.announce.match(protocolRegex[1])))
+      this.udpTrackers.push({hostname: match[1], port: parseInt(match[2])});
   }
 
   /* if torrent has multiple files */
@@ -108,6 +109,84 @@ Torrent.prototype.updatePeers = function()
     };
     xhr.open("GET", requestUri, true);
     xhr.send();
+  });
+
+  /* init udp packets */
+
+  /*
+    int64_t	connection_id:
+      Must be initialized to 0x41727101980 in network byte order. This will identify the protocol.
+    int32_t	action:
+      0 for a connection request
+    int32_t	transaction_id:
+      Randomized by client.
+  */
+  //TODO: in emscripten?
+  var connectPacket = new ArrayBuffer(16);
+
+  /* connection_id */
+  connectPacket[7] = 0x80;
+  connectPacket[6] = 0x19;
+  connectPacket[5] = 0x10;
+  connectPacket[4] = 0x27;
+  connectPacket[3] = 0x17;
+  connectPacket[2] = 0x04;
+  connectPacket[1] = 0x00;
+  connectPacket[0] = 0x00;
+
+  /* action */
+  connectPacket[8] = 0x00;
+  connectPacket[9] = 0x00;
+  connectPacket[10] = 0x00;
+  connectPacket[11] = 0x00;
+
+  this.udpTrackers.forEach(function(tracker) {
+    var localConnectPacket = connectPacket;
+
+    var transactionId = parseInt(Math.random() * 0xffffffff);
+
+    /*
+     * converting to big endian here, however it does not matter
+     */
+    for(var i = 24; i >= 0; i -= 8)
+      localConnectPacket[12 + ((24 - i) / 8)] = (transactionId & (0xFF << i)) >> i;
+
+    var udpDataEvent = function(d) {
+      var data = chrome.socket.read(d.socketId);
+      console.log(data);
+    };
+
+    chrome.socket.create("udp", function(socketInfo) {
+      chrome.socket.connect(socketInfo.socketId, tracker.hostname, tracker.port, function(result) {
+        if(result !== 0)
+        {
+          console.log("Failed to set socket to communicate with udp://" + tracker.hostname + ":" + tracker.port);
+          return;
+        } else
+        {
+          console.log("Set socket to communicate to udp://" + tracker.hostname + ":" + tracker.port);
+
+          chrome.socket.read(socketInfo.socketId, null, function(readInfo) {
+            if(readInfo.resultCode <= 0)
+            {
+              console.log("Error reading from udp://" + tracker.hostname + ":" + tracker.port + ", RC: " + readInfo.resultCode);
+              return;
+            } else
+              console.log(readInfo.data);
+          });
+
+          chrome.socket.write(socketInfo.socketId, localConnectPacket, function(writeInfo) {
+            if(writeInfo.bytesWritten < 0)
+            {
+              console.log("Could not send connect packet to udp://" + tracker.hostname + ":" + tracker.port);
+              return;
+            }
+            console.log("Sent " + writeInfo.bytesWritten + " bytes.");
+            chrome.socket.destroy(socketInfo.socketId);
+          });
+      }});
+    });
+
   });
 }
 
