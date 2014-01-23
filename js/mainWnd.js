@@ -20,12 +20,33 @@ This file is part of chorrent.
 
 console.log("window.js loaded.");
 
-var torrentMgr = new TorrentMgr();
-
 var app = angular.module("mainWnd", []);
 
 app.controller("dlistCtrl", function($scope) {
   chrome.runtime.getBackgroundPage(function(root) {
     $scope.$apply(function(){ $scope.torrents = root.torrents; });
+  });
+});
+
+app.controller("menuCtrl", function($scope) {
+  $scope.menuItems = [{
+    name: "Add Torrent",
+    id: "addTorrent",
+    onclick: function() {
+      chrome.runtime.getBackgroundPage(function(root) {
+        chrome.fileSystem.chooseEntry({
+        type: "openFile",
+        accepts: [{
+          description: ".torrent file",
+          extensions: ["torrent"]
+        }]
+      }, function(fileEntry){ root.torrentMgr.openTorrentFile(fileEntry); }); });
+    }
+  }];
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  angular.element(document.getElementById("menu")).scope().menuItems.forEach(function(item) {
+      document.getElementById(item.id).addEventListener('click', item.onclick);
   });
 });

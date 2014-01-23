@@ -16,8 +16,8 @@
   "app": {
     "background": {
       "scripts": [
-        "js/main.js",
-        "js/TorrentMgr.js"
+        "js/ext/require.js",
+        "js/main.js"
       ]
     }
   }

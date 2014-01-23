@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 
 Copyright © 2014 Tolga HOŞGÖR
 
@@ -24,18 +24,6 @@ function TorrentMgr()
 };
 
 //TODO: Rename to UiMgr and make TorrentMgr seperate to run as main js in manifest.
-
-TorrentMgr.prototype.chooseTorrentFile = function()
-{
-  var self = this;
-  chrome.fileSystem.chooseEntry({
-    type: "openFile",
-    accepts: [{
-      description: ".torrent file",
-      extensions: ["torrent"]
-    }]
-  }, function(fileEntry){ self.openTorrentFile(fileEntry); });
-};
 
 TorrentMgr.prototype.openTorrentFile = function(fileEntry)
 {
@@ -66,4 +54,3 @@ TorrentMgr.prototype.openTorrentFile = function(fileEntry)
     reader.readAsBinaryString(file);
   });
 };
-

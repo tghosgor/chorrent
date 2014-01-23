@@ -20,12 +20,29 @@ This file is part of chorrent.
 
 var torrents = ["test1", "test2", "test3"];
 
+var torrentMgr;
+
 chrome.app.runtime.onLaunched.addListener(function() {
-  chrome.app.window.create("html/mainWnd.html", {
-    id: "mainWnd",
-    "bounds": {
-      "width": 1024,
-      "height": 720
-    }
+
+  console.log("main.js loaded.");
+
+  require(["js/ext/bencode",
+           "js/ext/bencode",
+           "js/ext/rusha",
+           "js/obj/TorrentMgr",
+           "js/obj/Torrent",
+           "js/obj/Utility",
+           "js/obj/UdpTracker"], function() {
+
+    torrentMgr = new TorrentMgr();
+
+    chrome.app.window.create("html/mainWnd.html", {
+      id: "mainWnd",
+      "bounds": {
+        "width": 1024,
+        "height": 720
+       }
+     });
   });
+
 });
