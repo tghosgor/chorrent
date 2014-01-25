@@ -7,6 +7,10 @@ A torrent client project as a chrome extension. The main focus is to have a slee
 
 This chrome app is meant to be written in pure javascript, which means it will be cross-platform and will run anywhere that chrome runs. (most of the extensions I have seen, doesn't care about Linux somehow although torrent is constantly used, and like it is not enough, one also requires external application to be set up).
 
+This project is licensed under:
+
+![AGPLv3](https://raw2.github.com/metherealone/chorrent/master/res/icon/agplv3-155x51.png)
+
 Looking forward for pull requests, especially about artwork and ui design.
 
 You can also [donate via Crowdrise](http://www.crowdrise.com/ChorrentClientAppChrome/fundraiser/tghosgor) or [donate via PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TR52EYN5SPZQS) so that I can get a few beers to drink while working on this. :)
