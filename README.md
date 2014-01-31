@@ -13,4 +13,8 @@ This project is licensed under:
 
 Looking forward for pull requests, especially about artwork and ui design.
 
+###What is implemented?
+ * BEP-0012 - Multiple Trackers
+ * BEP-0015 - UDP Tracker
+
 You can also [donate via Crowdrise](http://www.crowdrise.com/ChorrentClientAppChrome/fundraiser/tghosgor) or [donate via PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TR52EYN5SPZQS) so that I can get a few beers to drink while working on this. :)
