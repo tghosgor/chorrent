@@ -42,14 +42,14 @@ function Torrent(torrentData, peerId)
     this.peerId = peerId;
 
   /* store trackers seperately according to protocol */
-  var protocolRegex = [/^http(s):\/\//, /^udp:\/\/(.+?)(?::([\d]+))?\//];
+  var protocolRegex = [/^https?:\/\//, /^udp:\/\/(.+?)(?::([\d]+))?\//];
 
   var match;
   if(this.metadata["announce-list"] !== undefined)
   {
     this.metadata["announce-list"].forEach(function(tracker) {
       if(tracker[0].match(protocolRegex[0]))
-        self.httpTrackers.push(new HttpTracker(this.metadata.announce, self));
+        self.httpTrackers.push(new HttpTracker(self.metadata.announce, self));
       else if((match = tracker[0].match(protocolRegex[1])))
         self.udpTrackers.push(new UdpTracker(match[1], parseInt(match[2]), self));
     });
