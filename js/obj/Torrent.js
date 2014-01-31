@@ -36,7 +36,7 @@ function Torrent(torrentData, peerId)
     for(var i = 0; i < 20; ++i)
     {
       this.peerId[i] = Math.floor(Math.random() * 256);
-    };
+    }
   }
   else
     this.peerId = peerId;
@@ -49,17 +49,17 @@ function Torrent(torrentData, peerId)
   {
     this.metadata["announce-list"].forEach(function(tracker) {
       if(tracker[0].match(protocolRegex[0]))
-        self.httpTrackers.push(tracker[0]);
+        self.httpTrackers.push(new HttpTracker(this.metadata.announce, self));
       else if((match = tracker[0].match(protocolRegex[1])))
-        self.udpTrackers.push({hostname: match[1], port: parseInt(match[2])});
+        self.udpTrackers.push(new UdpTracker(match[1], parseInt(match[2]), self));
     });
   } else
   {
     /* here because always the same with one in announce-list? */
     if(this.metadata.announce.match(protocolRegex[0]))
-      this.httpTrackers.push(this.metadata.announce);
+      this.httpTrackers.push(new HttpTracker(this.metadata.announce, this));
     else if((match = this.metadata.announce.match(protocolRegex[1])))
-      this.udpTrackers.push({hostname: match[1], port: parseInt(match[2])});
+      this.udpTrackers.push(new UdpTracker(match[1], parseInt(match[2]), this));
   }
 
   /* if torrent has multiple files */
@@ -91,33 +91,12 @@ Torrent.prototype.updatePeers = function()
 {
   var self = this;
 
-  this.httpTrackers.forEach(function(tracker) {
-    var requestUri = tracker + "?info_hash=" + this.peInfoHash + "&peer_id="
-      + this.peerId + "&port=6881&uploaded=0&downloaded=0&left=" + this.size();
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-      if(xhr.readyState == 4)
-      {
-        var correctedResponse = xhr.responseText.toString();
-        var regexList = [/5:peers/, /([^d])2\:ip/g, /porti([\d]{2,5})[^e](.+?):/g];
-        var replacementList = ["5:peersl", "$1d2:ip", "porti$1e$2:"];
-        for(var i = 0; i < regexList.length; ++i)
-        {
-          correctedResponse = correctedResponse.replace(regexList[i], replacementList[i]);
-        }
-        correctedResponse = correctedResponse.replace(/( )?$/, "e$1");
-
-        self.peers = Bencode.decode(correctedResponse);
-
-        self.onPeersChanged();
-      }
-    };
-    xhr.open("GET", requestUri, true);
-    xhr.send();
+  this.httpTrackers.forEach(function(httpTracker) {
+    httpTracker.update();
   });
 
-  this.udpTrackers.forEach(function(tracker) {
-    var udpTracker = new UdpTracker(tracker, self);
+  this.udpTrackers.forEach(function(udpTracker) {
+    udpTracker.update();
   });
 }
 

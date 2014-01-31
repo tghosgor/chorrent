@@ -17,21 +17,32 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-function UdpTracker(tracker, torrent)
+function UdpTracker(hostname, port, torrent)
+{
+  this.tracker = {hostname: hostname, port: port};
+  this.torrent = torrent;
+}
+
+UdpTracker.prototype.update = function()
 {
   var self = this;
-  this.tracker = tracker;
-  this.torrent = torrent;
-  chrome.socket.create("udp", null, function(socketInfo) {
-    self.socketId = socketInfo.socketId;
-    chrome.socket.connect(socketInfo.socketId, tracker.hostname, tracker.port, function(result) {
-      if(result !== 0)
-        throw "Failed to set socket to communicate with udp://" + tracker.hostname + ":" + tracker.port;
+  if(this.socketId === undefined)
+  {
+    chrome.socket.create("udp", null, function(socketInfo) {
+      self.socketId = socketInfo.socketId;
+      chrome.socket.connect(socketInfo.socketId, self.tracker.hostname, self.tracker.port, function(result) {
+        if(result !== 0)
+          throw "Failed to set socket to communicate with udp://" + self.tracker.hostname + ":" + self.tracker.port;
 
-      console.log("Set socket to communicate to udp://" + tracker.hostname + ":" + tracker.port);
-      self.connect();
+        console.log("Set socket to communicate to udp://" + self.tracker.hostname + ":" + self.tracker.port);
+        self.connect();
+      });
     });
-  });
+  }
+  else
+  {
+    this.connect();
+  }
 }
 
 UdpTracker.prototype.connect = function()
@@ -192,6 +203,8 @@ UdpTracker.prototype.announceHandler = function(readInfo, transactionId)
     Utility.typedArrayBS(new Int32Array(readInfo.data, 12, 1))));
   this.torrent.seeders.set(new Int32Array(
     Utility.typedArrayBS(new Int32Array(readInfo.data, 16, 1))));
+
+  this.torrent.onPeersChanged();
 
   console.log(this.torrent);
 };

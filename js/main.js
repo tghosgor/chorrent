@@ -30,7 +30,8 @@ chrome.app.runtime.onLaunched.addListener(function() {
            "js/ext/rusha",
            "js/obj/TorrentMgr",
            "js/obj/Torrent",
-           "js/obj/Utility",
+           "js/obj/Utility",,
+           "js/obj/HttpTracker",
            "js/obj/UdpTracker"], function() {
 
     torrentMgr = new TorrentMgr();
