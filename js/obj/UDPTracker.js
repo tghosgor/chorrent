@@ -174,7 +174,7 @@ UdpTracker.prototype.announce = function()
     if(writeInfo.bytesWritten < 0)
       throw "Error announcing; retval: " + writeInfo.bytesWritten;
 
-    console.log(new Int8Array(annPacket));
+    //console.log(new Int8Array(annPacket));
 
     chrome.socket.read(self.socketId, function(readInfo) {
       self.announceHandler(readInfo, annPacketTransId);
@@ -204,7 +204,7 @@ UdpTracker.prototype.announceHandler = function(readInfo, transactionId)
   this.torrent.seeders.set(new Int32Array(
     Utility.typedArrayBS(new Int32Array(readInfo.data, 16, 1))));
 
-  this.torrent.onPeersChanged();
+  //TODO: parse response for peers
 
-  console.log(this.torrent);
+  this.torrent.onPeersChanged();
 };

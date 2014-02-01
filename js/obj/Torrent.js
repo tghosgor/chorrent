@@ -41,6 +41,15 @@ function Torrent(torrentData, peerId)
   else
     this.peerId = peerId;
 
+  /* percent encode peerId */
+  var uPeerId = new Uint8Array(this.peerId.buffer);
+  this.pePeerId = new String;
+  for(var i = 0; i < 20; ++i)
+  {
+    var hexStr = uPeerId[i].toString(16);
+    this.pePeerId = this.pePeerId + "%" + (hexStr.length > 1 ? hexStr : "0" + hexStr);
+  }
+
   /* store trackers seperately according to protocol */
   var protocolRegex = [/^https?:\/\//, /^udp:\/\/(.+?)(?::([\d]+))?\//];
 
@@ -91,10 +100,13 @@ Torrent.prototype.updatePeers = function()
 {
   var self = this;
 
+  /* remove all current peers */
+  this.peers.splice(0, this.peers.length);
+
+  /* below here requests new peers and repopulate torrent peers */
   this.httpTrackers.forEach(function(httpTracker) {
     httpTracker.update();
   });
-
   this.udpTrackers.forEach(function(udpTracker) {
     udpTracker.update();
   });
@@ -102,6 +114,7 @@ Torrent.prototype.updatePeers = function()
 
 Torrent.prototype.onPeersChanged = function()
 {
+  console.log(this);
 }
 
 Torrent.prototype.size = function()

@@ -6,8 +6,9 @@ function HttpTracker(uri, torrent)
 
 HttpTracker.prototype.update = function()
 {
+  var self = this;
   var requestUri = this.uri + "?info_hash=" + this.torrent.peInfoHash + "&peer_id="
-    + this.torrent.peerId + "&port=6881&uploaded=0&downloaded=0&left=" + this.torrent.size();
+    + this.torrent.pePeerId + "&port=6881&uploaded=0&downloaded=0&left=" + this.torrent.size();
   var xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function() {
     if(xhr.readyState == 4)
@@ -21,9 +22,15 @@ HttpTracker.prototype.update = function()
       }
       correctedResponse = correctedResponse.replace(/( )?$/, "e$1");
 
-      self.peers = Bencode.decode(correctedResponse);
+      var response = Bencode.decode(correctedResponse);
 
-      torrent.onPeersChanged();
+      self.interval = response.interval;
+
+      response.peers.forEach(function(peer) {
+        self.torrent.peers.push(peer);
+      });
+
+      self.torrent.onPeersChanged();
     }
   };
   xhr.open("GET", requestUri, true);
